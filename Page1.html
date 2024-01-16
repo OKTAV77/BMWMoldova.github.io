@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Car Listing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        #image-preview {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #image-preview img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .preview-image {
+            max-width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Add Car Listing</h1>
+        <form action="submit_car_listing.php" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <input type="number" name="year" id="year" required>
+            </div>
+            <div class="form-group">
+                <label for="car_series">Car Series:</label>
+                <input type="text" name="car_series" id="car_series" required>
+            </div>
+            <div class="form-group">
+                <label for="motor_capacity">Motor Capacity (cc):</label>
+                <input type="number" name "motor_capacity" id="motor_capacity" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea name="description" id="description" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="car_photos">Car Photos (up to 5, .jpg, .jpeg, .png):</label>
+                <input type="file" name="car_photos[]" id="car_photos" accept=".jpg, .jpeg, .png" multiple required>
+            </div>
+            <div class="form-group" id="image-preview">
+                <label>Image Previews:</label>
+                <div id="image-preview-container"></div>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var fileInput = document.getElementById('car_photos');
+            var previewContainer = document.getElementById('image-preview-container');
+
+            fileInput.addEventListener('change', function () {
+                previewContainer.innerHTML = ''; // Clear previous previews
+                
+                if (fileInput.files) {
+                    for (var i = 0; i < fileInput.files.length; i++) {
+                        if (i >= 5) break; // Allow only up to 5 photos
+                        var img = document.createElement('img');
+                        img.className = 'preview-image';
+                        img.src = URL.createObjectURL(fileInput.files[i]);
+                        previewContainer.appendChild(img);
+                    }
+                    previewContainer.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
